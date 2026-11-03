@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # --------------------------------------------------------
+  # PostgreSQL Database
+  # --------------------------------------------------------
+  db:
+    image: postgres:15-alpine
+    container_name: signal-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: signal
+    ports:
+      - "5432:5432"
+    volumes:
+      - signal-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d signal"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --------------------------------------------------------
+  # NestJS API (Backend)
+  # --------------------------------------------------------
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    container_name: signal-api
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/signal?schema=public
+    volumes:
+      - ./apps/api:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    command: npm run start:dev
+
+  # --------------------------------------------------------
+  # Next.js Web (Frontend)
+  # --------------------------------------------------------
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    container_name: signal-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:4000/api
+    volumes:
+      - ./apps/web:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    depends_on:
+      - api
+    command: npm run dev
+
+volumes:
+  signal-db-data:
+    name: signal-db-data
