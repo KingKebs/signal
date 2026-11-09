@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@radix-ui/react-progress": "^1.2.1"
+    "@prisma/client": "^5.22.0",
+    "@radix-ui/react-progress": "^1.2.1",
+    "prisma": "^5.22.0"
   }
 }

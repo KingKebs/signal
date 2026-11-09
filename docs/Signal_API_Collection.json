@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "Signal API Collection",
+    "description": "API collection for the Signal SaaS application. This collection is updated as we progress through development phases.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000/api",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "mock-tenant-1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Phase 4: Leads",
+      "description": "Endpoints related to Lead capture and management.",
+      "item": [
+        {
+          "name": "Get All Leads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            }
+          }
+        },
+        {
+          "name": "Capture Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"name\": \"Bruce Wayne\",\n  \"email\": \"bruce@wayneenterprises.com\",\n  \"company\": \"Wayne Enterprises\",\n  \"source\": \"Postman Collection\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/leads/capture",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "capture"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

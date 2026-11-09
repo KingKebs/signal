@@ -1,0 +1,61 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id         String   @id @default(uuid())
+  name       String
+  createdAt  DateTime @default(now()) @map("created_at")
+  users      User[]
+  leads      Lead[]
+}
+
+model User {
+  id           String      @id @default(uuid())
+  tenantId     String      @map("tenant_id")
+  email        String      @unique
+  role         String      // "Admin", "Agent"
+  passwordHash String      @map("password_hash")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  tenant       Tenant      @relation(fields: [tenantId], references: [id])
+  followUps    FollowUp[]
+}
+
+model Lead {
+  id              String      @id @default(uuid())
+  tenantId        String      @map("tenant_id")
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  source          String
+  status          String      @default("New") // New, Qualified, Contacted, Converted, Disqualified, Archived
+  priorityScore   Int         @default(0) @map("priority_score")
+  scoreReason     String?     @map("score_reason")
+  ownerId         String?     @map("owner_id")
+  nextFollowUpAt  DateTime?   @map("next_follow_up_at")
+  consentMetadata Json        @map("consent_metadata")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  tenant          Tenant      @relation(fields: [tenantId], references: [id])
+  followUps       FollowUp[]
+}
+
+model FollowUp {
+  id          String    @id @default(uuid())
+  leadId      String    @map("lead_id")
+  ownerId     String    @map("owner_id")
+  actionType  String    @map("action_type") // Call, Email, Meeting, Note
+  notes       String?
+  status      String    @default("Pending") // Pending, Completed
+  scheduledAt DateTime  @map("scheduled_at")
+  completedAt DateTime? @map("completed_at")
+  lead        Lead      @relation(fields: [leadId], references: [id])
+  owner       User      @relation(fields: [ownerId], references: [id])
+}

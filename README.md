@@ -5,7 +5,7 @@
 Signal is a platform for businesses to capture legitimate enquiries, prioritize opportunities, and automate timely sales follow-ups.
 
 ## Project Status
-**Phase 0:** Discovery & Documentation (Current)
+**Phase 4:** Backend API & Persistence (Completed)
 
 ## Prerequisites
 To run this project locally, ensure you have the following installed:
@@ -36,10 +36,18 @@ To run this project locally, ensure you have the following installed:
     docker compose ps
     ```
 
-5.  **Run database migrations and seed data** (Command will be finalized in Phase 4):
+5.  **Run database migrations and seed data:**
+    Navigate to the `apps/api` directory and use the Prisma CLI:
     ```bash
-    docker compose exec api npm run db:migrate
-    docker compose exec api npm run db:seed
+    cd apps/api
+    npm run db:migrate
+    npm run db:seed
+    ```
+
+6.  **Open Prisma Studio (Optional GUI for Database):**
+    ```bash
+    cd apps/api
+    npm run db:studio
     ```
 
 ## Local URLs

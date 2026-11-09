@@ -41,13 +41,13 @@ export default function DashboardOverview() {
               <kpi.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent className="flex-1 flex flex-col justify-end">
-              <div className="text-3xl font-bold text-primary mb-2">{kpi.value}</div>
-              <p className="text-xs flex items-center">
-                <span className={kpi.up ? "text-accent flex items-center" : "text-destructive flex items-center"}>
+              <div className="text-3xl font-bold tracking-tight text-primary mb-1">{kpi.value}</div>
+              <p className="text-xs flex items-center mt-1">
+                <span className={kpi.up ? "text-accent flex items-center font-medium" : "text-destructive flex items-center font-medium"}>
                   {kpi.up ? <ArrowUpRight className="h-3 w-3 mr-1" /> : <ArrowDownRight className="h-3 w-3 mr-1" />}
                   {kpi.trend}
                 </span>
-                <span className="text-muted-foreground ml-2">vs last month</span>
+                <span className="text-muted-foreground ml-1.5">vs last month</span>
               </p>
             </CardContent>
           </Card>
@@ -58,7 +58,7 @@ export default function DashboardOverview() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 border-border shadow-sm">
           <CardHeader className="pb-6">
-            <CardTitle className="text-primary text-lg">Pipeline Overview</CardTitle>
+            <CardTitle className="text-primary text-lg font-semibold tracking-tight">Pipeline Overview</CardTitle>
             <CardDescription className="text-sm">Current lead distribution by stage</CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,7 +86,7 @@ export default function DashboardOverview() {
 
         <Card className="col-span-3 border-border shadow-sm">
           <CardHeader className="pb-6">
-            <CardTitle className="text-primary text-lg">Recent Activity</CardTitle>
+            <CardTitle className="text-primary text-lg font-semibold tracking-tight">Recent Activity</CardTitle>
             <CardDescription className="text-sm">Latest actions across your team</CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,7 +119,7 @@ export default function DashboardOverview() {
       <Card className="border-border shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-primary">Priority Queue</CardTitle>
+            <CardTitle className="text-primary text-lg font-semibold tracking-tight">Priority Queue</CardTitle>
             <CardDescription>Leads requiring immediate attention</CardDescription>
           </div>
           <Button variant="outline" size="sm" asChild>
