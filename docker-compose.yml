@@ -43,7 +43,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: npm run start:dev
+    command: sh -c "npx prisma generate && node --loader ts-node/esm src/main.ts"
 
   # --------------------------------------------------------
   # Next.js Web (Frontend)
