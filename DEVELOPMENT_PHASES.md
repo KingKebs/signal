@@ -34,28 +34,30 @@ This document tracks the detailed implementation steps and milestones for each p
 - **Validation**: Added global `ValidationPipe` and `class-validator` DTOs (`CreateLeadDto`).
 - **Tooling**: Created a Postman API collection (`docs/Signal_API_Collection.json`) for endpoint testing.
 
-## Phase 5: Authentication & Permissions (Current / Upcoming)
-1. **Backend Authentication Setup (NestJS)**
-   - Install auth packages (`@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `passport-local`, `bcrypt`).
-   - Create an `AuthModule` and `AuthService` to handle user lookup, password validation, and token generation.
-2. **Login Endpoint & JWT Generation**
-   - Create `POST /api/auth/login` endpoint.
-   - Generate signed JWTs containing user ID, role, and `tenantId`.
-3. **Backend API Route Protection (Guards)**
-   - Create `JwtAuthGuard` and apply to protected endpoints (e.g., `GET /api/leads`).
-   - Refactor controllers to extract `tenantId` dynamically from the validated JWT payload.
-4. **Frontend Authentication Setup (Next.js)**
-   - Install and configure `next-auth` (or alternative context provider) in the Next.js app.
-   - Configure a custom Credentials provider interacting with the NestJS login endpoint.
-5. **Frontend Login UI & Route Protection**
-   - Build `/login` page UI using brand tokens and shadcn components.
-   - Implement Next.js Middleware/guards to protect `/app/*` routes, redirecting unauthenticated users.
-6. **Documentation & Testing Updates**
-   - Update Postman Collection to include Auth endpoints and Bearer token automation.
-   - Verify end-to-end flow from login to accessing tenant-scoped data.
+## Phase 5: Authentication & Permissions (Backend Complete / Frontend Deferred)
+1. **Backend Authentication Setup (NestJS)** - *Completed*
+   - Installed auth packages (`@nestjs/jwt`, `@nestjs/passport`, `passport-jwt`, `passport-local`, `bcrypt`).
+   - Created `AuthModule` and `AuthService` handling user lookup, password validation, and token generation.
+2. **Login Endpoint & JWT Generation** - *Completed*
+   - Created `POST /api/auth/login` endpoint.
+   - Generates signed JWTs containing user ID, role, and `tenantId`.
+3. **Backend API Route Protection (Guards)** - *Completed*
+   - Created `JwtAuthGuard` (currently disabled on leads routes to facilitate unblocked frontend development).
+4. **Environment Pivot**
+   - Paused frontend authentication integration due to critical blocking issues with Prisma/Alpine Linux binary compatibility within Docker.
+   - Restored API container stability by removing caching issues and modifying startup scripts (`ts-node/esm`).
 
-## Phase 6: Lead Management & Follow-ups (Upcoming)
-*(Details to be populated when phase begins)*
+## Phase 6: Lead Management & Follow-ups (Current)
+1. **Frontend Dynamic Data Integration**
+   - Converted static mock UI into Server Components fetching live database data via the NestJS API.
+   - Refactored `LeadsClient.tsx` to handle client-side search filtering.
+2. **Lead Details UI**
+   - Created `/app/leads/[id]` dynamic route displaying individual lead information.
+   - Styled components (Card, Badges) aligning with Electric Teal / Deep Navy brand guidelines.
+3. **Action Functionality (In Progress)**
+   - Extracted interactive buttons into `LeadActions.tsx` Client Component.
+   - Implemented `PATCH /api/leads/:id` endpoint on the backend.
+   - Connected "Update Status" buttons on the frontend to the API to dynamically mutate Lead state and re-render data.
 
 ## Phase 7: Automated Prioritization & Workflows (Upcoming)
 *(Details to be populated when phase begins)*

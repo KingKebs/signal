@@ -4,6 +4,16 @@
     "description": "API collection for the Signal SaaS application. This collection is updated as we progress through development phases.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
       "key": "baseUrl",
@@ -11,12 +21,56 @@
       "type": "string"
     },
     {
-      "key": "tenantId",
-      "value": "mock-tenant-1",
+      "key": "jwt_token",
+      "value": "",
       "type": "string"
     }
   ],
   "item": [
+    {
+      "name": "Phase 5: Auth",
+      "description": "Authentication endpoints.",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.access_token) {",
+                  "    pm.collectionVariables.set(\"jwt_token\", response.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@wayne.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
     {
       "name": "Phase 4: Leads",
       "description": "Endpoints related to Lead capture and management.",
@@ -36,6 +90,9 @@
         {
           "name": "Capture Lead",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -45,7 +102,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"name\": \"Bruce Wayne\",\n  \"email\": \"bruce@wayneenterprises.com\",\n  \"company\": \"Wayne Enterprises\",\n  \"source\": \"Postman Collection\"\n}"
+              "raw": "{\n  \"name\": \"Bruce Wayne\",\n  \"email\": \"bruce@wayneenterprises.com\",\n  \"company\": \"Wayne Enterprises\",\n  \"source\": \"Postman Collection\",\n  \"consent_granted\": true\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/leads/capture",

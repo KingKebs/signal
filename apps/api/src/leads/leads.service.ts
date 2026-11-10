@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateLeadDto } from './dto/create-lead.dto';
+import { PrismaService } from '../prisma/prisma.service.js';
+import { CreateLeadDto } from './dto/create-lead.dto.js';
+import { UpdateLeadDto } from './dto/update-lead.dto.js';
 
 @Injectable()
 export class LeadsService {
@@ -60,6 +61,18 @@ export class LeadsService {
     return this.prisma.lead.findFirst({
       where: { id, tenantId },
       include: { followUps: true },
+    });
+  }
+
+  async update(id: string, tenantId: string, updateLeadDto: UpdateLeadDto) {
+    const lead = await this.prisma.lead.findFirst({ where: { id, tenantId } });
+    if (!lead) return null;
+
+    return this.prisma.lead.update({
+      where: { id },
+      data: {
+        ...(updateLeadDto.status && { status: updateLeadDto.status }),
+      },
     });
   }
 }
