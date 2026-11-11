@@ -128,6 +128,36 @@ export default async function LeadDetailsPage({ params }: { params: { id: string
         
         <div className="space-y-6">
           <LeadActions leadId={lead.id} currentStatus={lead.status} />
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center space-x-2">
+                <span>Activity Feed</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {lead.followUps && lead.followUps.length > 0 ? (
+                <div className="space-y-4">
+                  {lead.followUps.sort((a: any, b: any) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime()).map((followUp: any) => (
+                    <div key={followUp.id} className="border-l-2 border-accent pl-4 pb-4 relative">
+                      <div className="absolute w-3 h-3 bg-accent rounded-full -left-[7px] top-1"></div>
+                      <div className="text-sm font-semibold text-primary">{followUp.actionType}</div>
+                      <div className="text-xs text-muted-foreground mb-1" suppressHydrationWarning>
+                        {new Date(followUp.scheduledAt).toLocaleString()}
+                      </div>
+                      {followUp.notes && (
+                        <div className="text-sm bg-muted/30 p-2 rounded-md mt-2">
+                          {followUp.notes}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">No activities logged yet.</p>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

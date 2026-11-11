@@ -2,6 +2,7 @@ import { Controller, Get, Post, Patch, Body, Param, Headers, NotFoundException, 
 import { LeadsService } from './leads.service.js';
 import { CreateLeadDto } from './dto/create-lead.dto.js';
 import { UpdateLeadDto } from './dto/update-lead.dto.js';
+import { CreateFollowUpDto } from './dto/create-follow-up.dto.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @Controller('leads')
@@ -40,5 +41,15 @@ export class LeadsController {
       throw new NotFoundException(`Lead with ID ${id} not found in this tenant`);
     }
     return lead;
+  }
+
+  @Post(':id/follow-ups')
+  async addFollowUp(@Param('id') id: string, @Body() createFollowUpDto: CreateFollowUpDto, @Headers() headers: Record<string, string>) {
+    const tenantId = headers['x-tenant-id'] || 'mock-tenant-1';
+    const followUp = await this.leadsService.addFollowUp(id, tenantId, createFollowUpDto);
+    if (!followUp) {
+      throw new NotFoundException(`Lead with ID ${id} not found in this tenant`);
+    }
+    return followUp;
   }
 }
