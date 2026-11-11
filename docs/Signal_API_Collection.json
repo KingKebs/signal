@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Signal API Collection",
-    "description": "API collection for the Signal SaaS application. This collection is updated as we progress through development phases.",
+    "description": "API collection for the Signal SaaS application, updated with Phase 6 (Lead Management).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -72,21 +72,9 @@
       ]
     },
     {
-      "name": "Phase 4: Leads",
-      "description": "Endpoints related to Lead capture and management.",
+      "name": "Phase 4: Leads Capture (Public)",
+      "description": "Endpoints related to public Lead capture from the marketing website.",
       "item": [
-        {
-          "name": "Get All Leads",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/leads",
-              "host": ["{{baseUrl}}"],
-              "path": ["leads"]
-            }
-          }
-        },
         {
           "name": "Capture Lead",
           "request": {
@@ -108,6 +96,114 @@
               "raw": "{{baseUrl}}/leads/capture",
               "host": ["{{baseUrl}}"],
               "path": ["leads", "capture"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 6: Lead Management (Internal)",
+      "description": "Endpoints for internal dashboard lead management (fetching, updating, follow-ups).",
+      "item": [
+        {
+          "name": "Get All Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "mock-tenant-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Lead",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "mock-tenant-1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/leads/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "ENTER_LEAD_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Lead Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tenant-id",
+                "value": "mock-tenant-1"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Contacted\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/leads/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "ENTER_LEAD_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Log Follow-Up Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tenant-id",
+                "value": "mock-tenant-1"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionType\": \"Email\",\n  \"notes\": \"Sent a welcome email to verify API integration.\",\n  \"status\": \"Completed\",\n  \"scheduledAt\": \"2026-11-11T12:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/leads/:id/follow-ups",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", ":id", "follow-ups"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "ENTER_LEAD_ID_HERE"
+                }
+              ]
             }
           }
         }

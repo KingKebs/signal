@@ -54,14 +54,25 @@ export default function ContactPage() {
     setSubmitStatus("idle");
 
     try {
-      // Simulate API call for Phase 2 MVP
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      console.log("Mock lead captured:", {
-        ...data,
-        source: "Contact Form",
-        status: "New",
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads/capture`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-tenant-id": "mock-tenant-1",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          company: data.company,
+          source: "Contact Form",
+          consent_granted: data.consent_granted,
+        }),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to capture lead");
+      }
       
       setSubmitStatus("success");
       reset(); // Clear the form on success

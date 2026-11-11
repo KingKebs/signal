@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateLeadDto } from './dto/create-lead.dto.js';
 import { UpdateLeadDto } from './dto/update-lead.dto.js';
+import { CreateFollowUpDto } from './dto/create-follow-up.dto.js';
 
 @Injectable()
 export class LeadsService {
@@ -72,6 +73,27 @@ export class LeadsService {
       where: { id },
       data: {
         ...(updateLeadDto.status && { status: updateLeadDto.status }),
+      },
+    });
+  }
+
+  async addFollowUp(leadId: string, tenantId: string, dto: CreateFollowUpDto) {
+    const lead = await this.prisma.lead.findFirst({ where: { id: leadId, tenantId } });
+    if (!lead) return null;
+    
+    // In Phase 5 auth we'd have the JWT userId. 
+    // Here we just grab the first user in the tenant as a fallback mock for Phase 6.
+    const user = await this.prisma.user.findFirst({ where: { tenantId } });
+    if (!user) throw new Error("No user found in tenant");
+
+    return this.prisma.followUp.create({
+      data: {
+        leadId,
+        ownerId: user.id,
+        actionType: dto.actionType,
+        notes: dto.notes,
+        scheduledAt: new Date(dto.scheduledAt),
+        status: dto.status,
       },
     });
   }
