@@ -5,7 +5,10 @@
 Signal is a platform for businesses to capture legitimate enquiries, prioritize opportunities, and automate timely sales follow-ups.
 
 ## Project Status
-**Phase 4:** Backend API & Persistence (Completed)
+**Phase 7:** Automated Prioritization & Workflows (Completed)
+
+> **Note:** For a detailed task-by-task checklist of each phase, see [`DEVELOPMENT_PHASES.md`](./DEVELOPMENT_PHASES.md). 
+> For a narrative explanation and breakdown of exactly what was built and changed during each phase, see the [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## Prerequisites
 To run this project locally, ensure you have the following installed:
