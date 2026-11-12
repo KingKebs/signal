@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardAction } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -127,11 +127,13 @@ export default function LeadActions({ leadId, currentStatus }: { leadId: string,
       {isModalOpen && mounted && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
           <Card className="w-full max-w-md shadow-xl animate-in fade-in zoom-in-95">
-            <CardHeader className="flex flex-row items-center justify-between pb-4">
+            <CardHeader>
               <CardTitle>Log Follow Up</CardTitle>
-              <Button variant="ghost" size="icon" onClick={() => setIsModalOpen(false)}>
-                <X className="h-4 w-4" />
-              </Button>
+              <CardAction>
+                <Button variant="ghost" size="icon" onClick={() => setIsModalOpen(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </CardAction>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -166,13 +168,13 @@ export default function LeadActions({ leadId, currentStatus }: { leadId: string,
                   onChange={(e) => setFollowUp({...followUp, scheduledAt: e.target.value})}
                 />
               </div>
-              <div className="pt-4 flex justify-end gap-2 border-t border-border">
-                <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={submitFollowUp}>
-                  Save Activity
-                </Button>
-              </div>
             </CardContent>
+            <CardFooter className="justify-end gap-2 bg-transparent">
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+              <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={submitFollowUp}>
+                Save Activity
+              </Button>
+            </CardFooter>
           </Card>
         </div>,
         document.body
