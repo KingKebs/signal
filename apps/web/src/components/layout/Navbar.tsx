@@ -48,9 +48,11 @@ export function Navbar() {
             >
               Log in
             </Link>
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/contact">Request a demo</Link>
-            </Button>
+            <Link href="/contact">
+              <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
+                Request a demo
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -94,11 +96,11 @@ export function Navbar() {
                 Log in
               </Link>
               <div className="px-3 py-2">
-                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                     Request a demo
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

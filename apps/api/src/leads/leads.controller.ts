@@ -9,12 +9,16 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
-  // Public endpoint for capturing leads (e.g., from marketing website)
   @Post('capture')
   create(@Body() createLeadDto: CreateLeadDto, @Headers() headers: Record<string, string>) {
-    // For a real public endpoint, this would be an API key or an origin check.
     const tenantId = headers['x-tenant-id'] || 'mock-tenant-1';
     return this.leadsService.create(createLeadDto, tenantId);
+  }
+
+  @Get('dashboard/stats')
+  getDashboardStats(@Headers() headers: Record<string, string>) {
+    const tenantId = headers['x-tenant-id'] || 'mock-tenant-1';
+    return this.leadsService.getDashboardStats(tenantId);
   }
 
   @Get()

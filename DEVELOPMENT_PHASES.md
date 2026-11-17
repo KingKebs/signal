@@ -47,7 +47,7 @@ This document tracks the detailed implementation steps and milestones for each p
    - Paused frontend authentication integration due to critical blocking issues with Prisma/Alpine Linux binary compatibility within Docker.
    - Restored API container stability by removing caching issues and modifying startup scripts (`ts-node/esm`).
 
-## Phase 6: Lead Management & Follow-ups (Current)
+## Phase 6: Lead Management & Follow-ups (Completed)
 1. **Frontend Dynamic Data Integration**
    - Converted static mock UI into Server Components fetching live database data via the NestJS API.
    - Refactored `LeadsClient.tsx` to handle client-side search filtering.
@@ -59,8 +59,11 @@ This document tracks the detailed implementation steps and milestones for each p
    - Implemented `PATCH /api/leads/:id` endpoint on the backend.
    - Connected "Update Status" buttons on the frontend to the API to dynamically mutate Lead state and re-render data.
 
-## Phase 7: Automated Prioritization & Workflows (Upcoming)
-*(Details to be populated when phase begins)*
+## Phase 7: Automated Prioritization & Workflows (Completed)
+- **Backend KPI Endpoints**: Implemented `GET /api/leads/dashboard/stats` in NestJS to aggregate lead counts, calculate pipeline value, and return dynamic priority queue feeds based on rule-based `priorityScore`.
+- **Frontend Dashboard Integration**: Refactored the Next.js `DashboardOverview` Server Component (`/app/page.tsx`) to replace mock data with live fetching from the new API endpoint.
+- **Workflow Feed**: Surfaced the 4 most recent `FollowUp` logs onto the "Recent Activity" dashboard widget directly mapped to the PostgreSQL events.
+- **Type Safety**: Ensured correct mapping of Prisma schema objects (using `scheduledAt` for events) and integrated `date-fns` formatting on the client UI.
 
 ## Phase 8: Final Polish & Deployment Prep (Upcoming)
 *(Details to be populated when phase begins)*

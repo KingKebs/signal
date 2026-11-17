@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-// @ts-expect-error Next.js processes global CSS imports without TypeScript declarations.
 import "./globals.css";
 import { cn } from "@/lib/utils";
 

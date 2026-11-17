@@ -20,16 +20,16 @@ export default function Home() {
             Capture legitimate enquiries, prioritize opportunities, and automate timely sales follow-up. Align your sales and marketing teams on a single source of truth.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/contact">
+            <Link href="/contact">
+              <Button size="lg" className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90">
                 Start free trial <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
-              <Link href="/platform">
+              </Button>
+            </Link>
+            <Link href="/platform">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto">
                 Watch demo
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
 
           {/* Stats / Features Row */}
