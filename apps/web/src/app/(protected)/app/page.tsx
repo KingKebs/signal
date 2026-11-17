@@ -7,7 +7,7 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 
 async function getDashboardStats() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads/dashboard/stats`, {
+  const res = await fetch(`http://api:4000/api/leads/dashboard/stats`, {
     headers: {
       "x-tenant-id": "mock-tenant-1",
     },

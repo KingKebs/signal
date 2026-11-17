@@ -23,8 +23,8 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().optional(),
   company: z.string().optional(),
-  consent_granted: z.literal(true, {
-    errorMap: () => ({ message: "You must agree to the privacy policy." }),
+  consent_granted: z.boolean().refine((val) => val === true, {
+    message: "You must agree to the privacy policy.",
   }),
 });
 
